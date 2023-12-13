@@ -1,0 +1,29 @@
+{% extends 'add.html' %}
+<!--Modal id-->
+{% block modal-id %} id="editModal{{ event.pk }}"  data-bs-backdrop="static" data-bs-keyboard="false" {% endblock modal-id%}
+<!--Modal title-->
+{% block modal-title %}
+<i class="fas fa-pen"></i>
+&nbsp;&nbsp; Edit Event {% endblock modal-title %}
+<!--Form action-->
+{% block form-action %} action="/edit_event" {% endblock form-action %}
+<!--Button action-->
+{% block btn-action %}
+<i class="fas fa-server"></i>
+&nbsp;&nbsp; Save  {% endblock btn-action %}
+<!--==================== All <inputs >=====================-->
+<!--image-->
+{% block value-image %} value="{{ event.image }}" {% endblock value-image %}
+<!--title-->
+{% block value-eventname %} value="{{ event.title }}" {% endblock value-eventname %}
+<!--Venue-->
+{% block value-venue %} value="{{ event.Venue }}" {% endblock value-venue %}
+<!--start time-->
+{% block value-from %} value="{{ event.starting_time }}" {% endblock value-from %}
+<!--endtime-->
+{% block too %} value="{{ event.end_time }}" {% endblock too %}
+<!--Owner-->
+{% block value-owner %} value="{{ event.Origin }}" {% endblock value-owner %}
+<!--notes-->
+{% block notes %}{{ event.notes }}{% endblock notes %}
+

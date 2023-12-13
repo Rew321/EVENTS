@@ -1,0 +1,61 @@
+{% load social_share %}
+<!-- Modal -->
+{% block content %}
+  <div class="modal fade" {% block modal-id %}  id="eventModal{{event.pk}}" {% endblock modal-id %}   data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-success">
+          <h5 class="modal-title" id="eventModalLabel" style="margin-left: 120px; color:#fff;">{% block modal-title %} <li class="fas fa-tasks" aria-hidden="true" style="margin-left: -120px;"></li>&nbsp; Event Details {% endblock modal-title %}</h5>
+          <div class="w-100 d-flex justify-content-end mt-3">
+            <button class="btn btn-default border btn-sm" type="button" data-bs-dismiss="modal"><i class="fa fa-times" style="color: #fff;"></i> <span style="color: #fff;">Close</span></button>
+        </div>
+        </div>
+        <div class="modal-body">
+          <span style="color: rgb(50, 174, 205);font-size:20px;"><strong>{{event.id}}</strong></span>
+        <ul>  
+          <h5>Share the event below &nbsp;<i class="fas fa-arrow-alt-circle-down"></i></h5>
+         <ul class="texti"  style="display:inline-block; text-decoration:none;">{% post_to_telegram  "New event" %} <i class="fas fa-key"></i></ul>
+         <ul class="texti"  style="display:inline-block; text-decoration:none;">{% post_to_whatsapp  "New event" %} <i class="fas fa-clock"></i></ul>
+         <ul class="texti"  style="display:inline-block; text-decoration:none;">{% post_to_facebook  "New event" %} <i class="fas fa-plane"></i></ul>
+         <ul class="texti"  style="display:inline-block; text-decoration:none;">{% post_to_twitter   "New event" %} <i class="fas fa-eye"></i></ul>
+        </ul>      
+        <div class="card" style="width: 100%;">
+         
+                   
+              <center>
+                {% if event.image.url %}
+                <img src="{{ event.image.url }}" class="" alt="posta" width="100%" height="500">
+                {% endif %}
+              </center>  
+              <hr>
+                <div class="card-body">
+                <h5 class="card-title"  style="color: #111;">{{event.title}}</h5>
+                <p class="card-text" style=" text-align: justify;color: #111;">{{event.notes}}. <br> At  {{event.Venue}}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>From:</strong> &nbsp;&nbsp; {{event.starting_time}} &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  
+                  &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                  &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; 
+                  <strong>To:</strong> &nbsp;&nbsp;{{event.end_time}}</li>
+                  <br>
+                  <strong><span style="color:cadetblue">Event Serial number:</span>&nbsp;&nbsp; {{event.snumber}}</strong>
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="card-link" style="text-decoration: none; color:blue"><strong>Posted By:</strong> &nbsp;&nbsp; {{event.Origin}} &nbsp;&nbsp; {{event.created_at}}
+                      &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  
+                  &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; 
+                  
+                    <strong>Last updated:</strong> {{event.updated_at}}</a>
+                    
+                </div>
+                <br>
+               <div class="links" style="display: inline-block;">
+                
+                   
+             </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

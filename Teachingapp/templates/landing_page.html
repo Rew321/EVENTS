@@ -1,0 +1,145 @@
+
+
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--FAVICON-->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+    <!--Bootstrap CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!--Font awsome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!--STATIC CSS-->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <!--jquery search-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  
+    <script>
+    var availableTags = []
+    $.ajax({
+        method: 'GET',
+        url: "event-list",
+        success: function (response){
+           startAutocomplete(response)
+    }
+    });
+      
+    function startAutocomplete(availableTags){
+        $( "#searchevents" ).autocomplete({
+        source: availableTags
+        });
+    }    
+
+    </script>
+</head>
+<div class="wrapper" id="container">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="col-sm">
+                <a class="navbar-brand flex-grow-1" style="text-align:center;color:#fff;margin-left:25px;">
+                    {% block navbar-content %}{% endblock navbar-content %}
+                    <i style="color: yellowgreen;" class="fas fa-hourglass"></i>
+                    &nbsp;&nbsp; Events Zone
+                </a>
+                <a class="btn btn-success btn-sm"  style="width: 40px;" data-bs-toggle="modal" data-bs-target="#addeventModal">
+                    <i class="fas fa-plus"></i>
+                </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="btn btn-success btn-sm"  style="width: 40px;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <i class="fas fa-sign-in-alt"></i>
+                </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="btn btn-success btn-sm"  style="width: 40px;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <i class="fas fa-cloud-sun-rain"></i>
+                </a>
+                <a class="btn btn-success btn-sm"  style="width: 40px;" data-bs-toggle="modal" data-bs-target="#logsModal">
+                    <i class="fas fa-lock-open"></i>
+                </a>
+            </div>
+            <!--INPUT SEARCH OUTSIDE htmx-->
+           
+            <form action="{% url 'searchevents' %}" method="POST" style="margin-right: 150px;" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="search" required class="form-control" id="searchevents" name="eventsearch" placeholder="search events" style="border-radius:60px;width:170%;">
+                <button type="submit" hidden class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#eventModal{{event.pk}}"
+                ></button>
+            </form>    
+                
+          
+        </nav>
+    </header>
+    {% for event in events %}
+    <div class="card" style="width: 18rem; margin-left: 10px;margin-top:20px;background-color: rgba(0, 0, 0, 0.651); 
+        box-shadow: 7px 7px 5px #aaaaaa; display: inline-block;">
+        
+        <img src="{{ event.image.url }}" alt="event" width="100%" height="280">
+       
+        <div class="card-body">
+            <h5 class="card-title title-sm" style="color: yellowgreen;">{{event.title}}</h5>
+            <br>
+            <br>
+            <!--====================================Buttons================================================-->
+            <div class="btn btn-success text-center" title="event viewer" style="margin-left: 7px;">
+                <i class="fas fa-eye"></i>
+                &nbsp;{{count}}
+            </div>
+            <!--Edit-->
+            <a
+                class="btn btn-success text-center"
+                title="Edit Event"
+                data-bs-toggle="modal"
+                data-bs-target="#editModal{{ event.pk }}"
+            >
+                <i class="fas fa-pen" style="font-size: 23px;width:30px;"></i>
+            </a>
+            <!--Delete button-->
+            <a
+                class="btn btn-success text-center"
+                title="Delete Event"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal{{ event.pk }}"
+            >
+                <i class="fas fa-trash" style="font-size: 23px;width:30px;"></i>
+            </a>
+            <!--read more button-->
+            <a
+                class="btn btn-success text-center"
+                title="Read More..."
+                data-bs-toggle="modal"
+                data-bs-target="#eventModal{{ event.pk }}"
+            >
+                read
+            </a>
+        </div>
+    </div>
+    <!--===============INCLUDE=================-->
+            {% include "detail.html" %}
+            {% include "delete.html" %}
+            {% include "edit.html" %}    
+        {% endfor %}
+            {% include 'add.html' %}
+            {% include 'logs.html' %}
+
+</div>
+<br><br><br>
+<hr>
+
+<div class="pagination">
+    pagination
+</div>
+
+<footer class="bg-dark text-center text-lg-start" id="footer" style="color: #fff;margin-top:auto;">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        &copy; {% now "Y" %} Copyright:
+        <a class="text-light" href="#" style="text-decoration: none;">
+            <span style="color: greenyellow;">www.eventease.com</span>
+        </a>
+    </div>
+</footer>

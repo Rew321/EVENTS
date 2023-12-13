@@ -1,0 +1,70 @@
+
+<!-- Modal -->
+<div class="modal fade" {% block modal-id %}  data-bs-backdrop="static" data-bs-keyboard="false" id="addeventModal" {% endblock modal-id %} tabindex="-1" aria-labelledby="addeventModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="addeventModalLabel">
+            {% block modal-title %} <i class="fas fa-plus"></i>&nbsp;&nbsp; Add Event {% endblock modal-title %}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" {% block form-action %} action="/add_event" {% endblock form-action %} autocomplete="off" 
+    onsubmit="return confirm('Do you want to proceed with uploading new data?')">
+        {% csrf_token %}
+      
+        <div class="modal-body">
+            
+            <!--===== block id =======-->
+            <div class="input-group mb-3">
+                <span class="btn border-secondary bg-light side-label"><i class="fas fa-image"></i></span>
+                <input type="file" name="image" class="form-control" required {% block value-image %}{% endblock value-image %}>
+            </div>
+           
+            <div class="input-group mb-3">
+                <span class="btn border-secondary bg-light side-label"><i class="fas fa-address-card"></i></span>
+                <input type="text" name="title" class="form-control" placeholder="Event Name" maxlength="100" required {% block value-eventname %}{% endblock value-eventname %}>
+            </div>
+            
+            <div class="input-group mb-3">
+                <span class="btn border-secondary bg-light side-label"><i class="fas fa-location-arrow"></i></span>
+                <input type="text" name="Venue" class="form-control" placeholder="Venue" maxlength="100" required {% block value-venue %}{% endblock value-venue %}>
+            </div>
+            
+            <div class="input-group mb-3">
+                <span class="btn border-secondary bg-light side-label"><i class="fas fa-clock"></i></span>
+                <input type="datetime-local" name="starting_time" class="form-control"  maxlength="100" required {% block from %}{% endblock from %}>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="btn border-secondary bg-light side-label"><i class="fas fa-clock"></i></span>
+                <input type="datetime-local" name="end_time"  required class="form-control" maxlength="100" {% block too %}{% endblock too %}>
+            </div>
+           
+            <div class="input-group mb-3">
+                <span class="btn border-secondary bg-light side-label"><i class="fas fa-user-alt"></i></span>
+                <input type="text" name="Origin" class="form-control" placeholder="Owner" maxlength="100" required {% block value-owner %}{% endblock value-owner %}>
+            </div>
+            
+
+            <div class="form-group">
+                 <textarea class="form-control" name="notes"  rows="3" maxlength="1000" placeholder="describe here">{% block notes %}{% endblock notes %}</textarea>
+           </div>
+
+           
+           <div class="mt-4" style="width: 100%;">
+                <button type="submit" class="btn btn-secondary mb-3">
+                    {% block btn-action %} <i class="fas fa-plus"></i>&nbsp;&nbsp; Add Event {% endblock btn-action %}
+                </button>
+                <button type="reset" class="btn btn-outline-dark mb-3 ms-2" style="width: 50px;" title="Reset">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <a href="{% url 'home' %}" class="btn btn-outline-dark mb-3 ms-2" style="width: 50px;" title="Close">
+                    <i class="fas fa-times"></i>
+                </a>
+           </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

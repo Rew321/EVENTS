@@ -1,0 +1,27 @@
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="logsModal" tabindex="-1" aria-labelledby="logsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title fs-5" id="logsModalLabel">
+                <i class="fas fa-lock-open"></i>&nbsp;&nbsp; User Logs
+            </h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       <div class="modal-body">
+        <div class="container" style="background-color:rgba(0, 0, 0, 0.451);">
+            <h4>Logs for <strong>{{user.username}}</strong></h4>
+            <h5 style="text-align: center;">Personal Info</h5>
+            <p><strong>First name</strong>&nbsp;{{user.f_name}}</p>
+            <p><strong>Last name</strong>&nbsp;{{user.last_name}}</p>
+            <p><strong>Email address</strong>&nbsp;{{user.email_address}}</p>
+            <br>
+            {% for  logs in last_login %}
+            <p>{{logs}}</p>
+            
+            {% endfor %}
+             {{user.last_login}}
+             
+        </div>
+    </div>
+  </div>
+</div>
